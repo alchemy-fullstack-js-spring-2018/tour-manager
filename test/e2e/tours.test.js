@@ -51,4 +51,18 @@ describe('Tours API', () => {
                 spring = body;
             });
     });
+
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    it('gets a tour by id', () => {
+        return Tour.create(fall).then(roundTrip)
+            .then(saved => {
+                fall = saved;
+                return request.get(`tours/${fall._id}`);
+            })
+            .then(({ body }) => {
+                fall.stops[0]._id = body.stops[0]._id;
+                assert.deepEqual(body, fall);
+            });
+    });
 });
