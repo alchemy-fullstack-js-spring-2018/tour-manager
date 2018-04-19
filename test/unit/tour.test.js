@@ -36,4 +36,17 @@ describe('Tour model', () => {
         assert.isAtMost(tour.launchDate - Date.now(), 5);
     });
 
+    const getValidationErrors = validation => {
+        assert.isDefined(validation, 'Expected validation errors but got none');
+        return validation.errors;
+    };
+
+    it('Required fields work', () => {
+        const tour = new Tour({activities: null});
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(Object.keys(errors).length, 2);
+        assert.equal(errors.title.kind, 'required');
+        assert.equal(errors.activities.kind, 'required');
+    });
+
 });
