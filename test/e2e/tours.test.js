@@ -54,4 +54,8 @@ describe('Tour API', () => {
                 assert.deepEqual(body, moMy);
             });
     });
+
+    it('updates a yarn (PUT)', () => {
+        maMo.activities = ['data type taming', 'document contortion', 'validation feats of strength'];
+    });
 }); 
