@@ -80,5 +80,27 @@ describe('Tours API', () => {
             });
     });
 
+    it('but does it query for items in an array? YES IT DOES!', () => {
+        return request.get('/tours?activities=fire-breathing')
+            .then(({ body }) => {
+                assert.deepEqual(body, [spring].map(getFields));
+            });
+    });
+
+    // how do you query for a city?
+
+    it('updates a tour', () => {
+        spring.title = 'Springy';
+
+        return request.put(`/tours/${spring._id}`)
+            .send(spring)
+            .then(({ body }) => {
+                assert.deepEqual(body, spring);
+                return Tour.findById(spring._id).then(roundTrip)
+            })
+            .then(updated => {
+                assert.deepEqual(updated, spring);
+            });
+    });
     
 });
