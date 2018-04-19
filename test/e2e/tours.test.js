@@ -119,16 +119,6 @@ describe('Tours API', () => {
     };
 
     describe('Tour Stops API', () => {
-        const stop1 = {
-            location: {
-                city: 'Boston',
-                state: 'MA'
-            },
-            weather: {
-                temperature: 22,
-            },
-            attendance: 356
-        };
 
         const stop2 = {
             location: {
@@ -152,7 +142,7 @@ describe('Tours API', () => {
                     return Tour.findById(fall._id).then(roundTrip);
                 })
                 .then(({ stops }) => {
-                    assert.deepEqual(stops, [stop1, stop2]);
+                    assert.deepEqual(stops, [fall.stops[0], stop2]);
                 });
         });
     });
