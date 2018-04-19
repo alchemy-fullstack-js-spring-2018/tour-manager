@@ -32,4 +32,21 @@ describe('Tour API', () => {
                 moMy = body;
             });
     });
+
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    const getFields = ({ _id, title, launchDate }) => ({ _id, title, launchDate });
+
+    it('gets all tours, returning a subset of fields (GET)', () => {
+        return Tour.create(maMo).then(roundTrip)
+            .then(saved => {
+                maMo = saved;
+                return request.get('/tours');
+            })
+            .then(({ body }) => {
+                assert.deepEqual(body, [moMy, maMo].map(getFields));
+            });
+    });
+
+
 }); 
