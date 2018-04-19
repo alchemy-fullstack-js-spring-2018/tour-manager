@@ -14,9 +14,7 @@ describe('Tour model', () => {
                     state: 'OR',
                     zip: '97239'
                 },
-                attendance: {
-                    type: 8160,
-                },
+                attendance: 8160,
                 weather: {
                     temperature: '65',
                     sunset: '6pm'
