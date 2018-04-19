@@ -73,5 +73,16 @@ describe('Tour API', () => {
                 assert.deepEqual(body, [volta]);
             });
     });
+
+    it('deletes a tour', () => {
+        return request.delete(`/tours/${corteo._id}`)
+            .then(() => {
+                return Tour.findById(`/tours/${corteo._id}`);
+            })
+            .then(found => {
+                assert.isNull(found);
+            });
+    });
+    
 });
 
