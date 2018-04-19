@@ -40,4 +40,15 @@ describe('Tour Model', () => {
         assert.ok(tour.launchDate);
         assert.isAtMost(tour.launchDate - Date.now(), 5);
     });
+
+    const getValidationErrors = validation => {
+        assert.isDefined(validation, 'expected validation errors but got none');
+        return validation.errors;
+    };
+
+    it('required fields', () => {
+        const tour = new Tour({});
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(Object.keys(errors).length, 1);
+    });
 });
