@@ -69,4 +69,18 @@ describe('Tour API', () => {
                 assert.deepEqual(body, ozfest);
             });
     });
+
+    it('Updates a tour', () => {
+        ozfest.title = 'Ozfest 2018';
+
+        return request.put(`/tours/${ozfest._id}`)
+            .send(ozfest)
+            .then(({ body }) => {
+                assert.deepEqual(body, ozfest);
+                return Tour.findById(ozfest._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, ozfest);
+            });
+    });
 });
