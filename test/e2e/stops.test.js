@@ -1,9 +1,9 @@
-// const { assert } = require('chai');
+const { assert } = require('chai');
 // const request = require('./request');
-// const Stop = require('../../lib/models/Stop');
+// // const Stop = require('../../lib/models/Stop');
 // const { dropCollection } = require('./db');
 
-// describe('Tour Stops API', () => {
+describe('Tour Stops API', () => {
 //     before(() => dropCollection('stops'));
 
 //     let memphis = {
@@ -26,5 +26,23 @@
 //         }]
 //     };
 
+//     it.only('saves/gets tour stop', () => {
+//         return request.post('/stop')
+//             .send(memphis)
+//             .then(({ body }) => {
+//                 const { _id, __v } = body;
+//                 assert.ok(_id);
+//                 assert.equal(__v, 0);
+//                 assert.deepEqual(body, {
+//                     _id, __v,
+//                     ...memphis
+//                 });
+//                 memphis = body;
+//             });
+//     });
 
-// });
+    it(':(', () => {
+        assert.equal(1, 1);
+    });
+
+});
