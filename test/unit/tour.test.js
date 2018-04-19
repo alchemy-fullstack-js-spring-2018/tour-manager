@@ -6,6 +6,7 @@ describe('Tour model', () => {
         const data = {
             title: 'The Test Tour',
             activities: ['testing models', 'testing validations', 'testing testing'],
+            launchDate: new Date('January 1, 1900 00:00:00'),
             stops: [{
                 location: {
                     city: 'Portland',
@@ -24,10 +25,15 @@ describe('Tour model', () => {
 
         data._id = tour._id;
         data.stops[0]._id = tour.stops[0]._id;
-        data.launchDate = tour.launchDate;
         assert.deepEqual(tour.toJSON(), data);
 
         assert.isUndefined(tour.validateSync());
+    });
+
+    it('Has default date of "now"', () => {
+        const tour = new Tour({ title: 'Right Now!', activities: ['this is just a test anyway']});
+        assert.ok(tour.launchDate);
+        assert.isAtMost(tour.launchDate - Date.now(), 5);
     });
 
 });
