@@ -92,4 +92,11 @@ describe('Tour API', () => {
                 assert.deepEqual(body, [woodstock, ozfest].map(getFields));
             });
     });
+
+    it('Queries tours', () => {
+        return request.get('/tours?title=Ozfest%202018')
+            .then(( { body }) => {
+                assert.deepEqual(body, [ozfest].map(getFields));
+            });
+    });
 });
