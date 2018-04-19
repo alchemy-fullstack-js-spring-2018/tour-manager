@@ -152,7 +152,18 @@ describe('Tours API', () => {
                 .send(stop2)
                 .then(checkOk)
                 .then(({ body }) => {
-                    assert.equal(body.attendance, stop2.attendance)
+                    assert.equal(body.attendance, stop2.attendance);
+                });
+        });
+
+        it('deletes a stop', () => {
+            return request.delete(`/tours/${fall._id}/stops/${stop2._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(fall._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops, [fall.stops[0]]);
                 });
         });
 
