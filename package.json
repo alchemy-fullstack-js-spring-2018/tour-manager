@@ -35,7 +35,8 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "mongoose": "^5.0.15",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "superagent": "^3.8.2"
   },
   "bugs": {
     "url": "https://github.com/CharlyWelch/tour-manager/issues"

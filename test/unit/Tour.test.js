@@ -11,8 +11,12 @@ describe('Tour model', () => {
             stops: {
                 location: {
                     city: 'Gary',
-                    state: 
-                }
+                    state: 'IN'
+                },
+                weather: {
+                    temperature: 102,
+                },
+                attendance: 27890
             }
         };
     });
