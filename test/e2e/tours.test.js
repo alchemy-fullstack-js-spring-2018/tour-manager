@@ -87,4 +87,42 @@ describe('Tour API', () => {
             });
     });
 
+    it('returns 404 on get of non-existent id', () => {
+        return request.get(`/tours/${tour2._id}`)
+            .then(response => {
+                assert.equal(response.status, 404);
+                assert.match(response.body.error, /^Tour id/);
+            });
+    });
+
+    describe('Tour stops API', () => {
+
+        let stop1 = {
+
+            location: {
+                city: 'Conifer',
+                state: 'Colorado',
+                zip: '80433'
+            },
+            weather: {
+                temperature: '45',
+                condition: 'Snow Flurries'
+            },
+            attendance: 200
+        };
+
+        it('adds a stop to tour1', () => {
+
+            return request.post(`/tours/${tour1._id}/stops`)
+                .send(stop1)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.ok(body._id);
+                    assert.deepEqual(body, { _id: body._id, ...stop1 });
+                    stop1 = body;
+                });
+        });
+
+    });
+
 });
