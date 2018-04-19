@@ -145,6 +145,18 @@ describe('Tours API', () => {
                     assert.deepEqual(stops, [fall.stops[0], stop2]);
                 });
         });
+
+        it('updates a stop', () => {
+            stop2.attendance = 800;
+            return request.put(`/tours/${fall._id}/stops/${stop2._id}`)
+                .send(stop2)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.equal(body.attendance, stop2.attendance)
+                })
+        })
+        
+        });
     });
 
     
