@@ -13,6 +13,12 @@ describe('Tour API', () => {
         stops: []
     };
 
+    let corteo = {
+        title: 'Corteo',
+        activities: ['clowns', 'acrobatics'],
+        stops: []
+    };
+
     it('it saves a tour', () => {
         return request.post('/tours')
             .send(volta)
@@ -24,6 +30,19 @@ describe('Tour API', () => {
                 assert.ok(launchDate);
                 assert.deepEqual(body, { _id, __v, launchDate, ...volta });
                 volta = body;
+            });
+    });
+
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    it('gets a tour by id', () => {
+        require Tour.create(corteo).then(roundTrip)
+            .then(saved => {
+                corteo = saved;
+                return request.get(`/tours/${corteo._id}`);
+            })
+            .then(({ body }) => {
+                assert.deepEqual(body, corteo);
             });
     });
 });
