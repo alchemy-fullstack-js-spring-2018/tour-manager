@@ -111,6 +111,20 @@ describe('Tour API', () => {
             attendance: 200
         };
 
+        let stop2 = {
+
+            location: {
+                city: 'Lakewood',
+                state: 'Colorado',
+                zip: '80401'
+            },
+            weather: {
+                temperature: '55',
+                condition: 'Sunny'
+            },
+            attendance: 1000
+        };
+
         it('adds a stop to tour1', () => {
 
             return request.post(`/tours/${tour1._id}/stops`)
@@ -120,6 +134,18 @@ describe('Tour API', () => {
                     assert.ok(body._id);
                     assert.deepEqual(body, { _id: body._id, ...stop1 });
                     stop1 = body;
+                });
+        });
+
+        it('adds another stop to tour1', () => {
+
+            return request.post(`/tours/${tour1._id}/stops`)
+                .send(stop2)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.ok(body._id);
+                    assert.deepEqual(body, { _id: body._id, ...stop2 });
+                    stop2 = body;
                 });
         });
 
@@ -134,6 +160,18 @@ describe('Tour API', () => {
                 })
                 .then(tour => {
                     assert.equal(tour.stops[0].attendance, stop1.attendance);
+                });
+        });
+
+        it('removes a stop', () => {
+            
+            return request.delete(`/tours/${tour1._id}/stops/${stop2._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(tour1._id).select('stops');
+                })
+                .then(tour => {
+                    assert.equal(tour.stops.length, 1);
                 });
         });
 
