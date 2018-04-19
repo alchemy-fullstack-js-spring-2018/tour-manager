@@ -99,4 +99,14 @@ describe('Tour API', () => {
                 assert.deepEqual(body, [ozfest].map(getFields));
             });
     });
+
+    it('Deletes a tour', () => {
+        return request.delete(`/tours/${ozfest._id}`)
+            .then(() => {
+                return Tour.findById(ozfest._id);
+            })
+            .then(found => {
+                assert.isNull(found);
+            });
+    });
 });
