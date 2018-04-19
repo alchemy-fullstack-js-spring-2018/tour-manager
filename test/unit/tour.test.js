@@ -25,7 +25,36 @@ describe('Tour model', () => {
         const tour = new Tour(data);
         data._id = tour._id;
         data.stops[0]._id = tour.stops[0]._id;
-        assert.deepEqual(tour.toJSON(), data);
-        
+        assert.deepEqual(tour.toJSON(), data);  
+    });
+
+    const getValidationErrors = validation => {
+        assert.isDefined(validation, 'expected validation errors but got none');
+        return validation.errors;
+    };
+
+    it('has default date of now', () => {
+        const tour = new Tour({ title: 'circus' });
+        assert.ok(tour.launchDate);
+        assert.isAtMost(tour.launchDate - Date.now(), 5);
+
+    });
+
+    it('title is require field', () => {
+        const tour = new Tour({});
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(Object.keys(errors).length, 1);
+        assert.equal(errors.title.kind, 'required');
+    });
+
+    it('attendance must be at least 1', () => {
+        const tour = new Tour({ 
+            title: 'test',
+            stops:[{
+                attendance: 0
+            }] 
+        });
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(errors['stops.0.attendance'].kind, 'min');
     });
 });
