@@ -19,5 +19,9 @@ describe('Tour model', () => {
                 attendance: 27890
             }
         };
+
+        const tour = new Tour(data);
+        assert.deepEqual(tour.toJSON(), { _id: tour._id, ...data });
+        assert.isUndefined(tour.validatedSync());
     });
 });
