@@ -35,13 +35,10 @@ describe('Circus API', () => {
                 let { _id, __v, launched } = body;
                 assert.ok(_id);
                 assert.equal(__v, 0);
-                console.log('montyPython', montyPython);
-                console.log('body', body);
                 assert.ok(launched);
-                launched = `${launched}`;
                 assert.deepEqual(body, {
-                    _id, __v, launched,
-                    ...montyPython
+                    ...montyPython,
+                    _id, __v, launched
                 });
                 montyPython = body;
             });
