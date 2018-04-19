@@ -66,4 +66,14 @@ describe('Tour API', () => {
             });
     });
 
+    const getFields = ({ _id, title, activities }) => ({ _id, title, activities });
+
+    it('gets all tours but only _id, title, and activities', () => {
+        return request.get('/tours')
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, [tour1, tour2].map(getFields));
+            });
+    });
+
 });
