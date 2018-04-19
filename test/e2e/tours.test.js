@@ -135,8 +135,7 @@ describe('Tour API', () => {
                 condition: 'Cloudy',
                 windSpeed: '5mph',
                 sunset: 'Like 9',
-            },
-            attendance: 1
+            }
         };
         
         it('Adds a stop', () => {
@@ -152,6 +151,16 @@ describe('Tour API', () => {
                 })
                 .then(({ stops }) => {
                     assert.deepEqual(stops[1], stop);
+                });
+        });
+
+        it('Adds attendance to a stop', () => {
+            stop.attendance = 10;
+            return request.put(`/tours/${woodstock._id}/stops/${stop._id}/attendance`)
+                .send(stop)
+                .then(checkOk)
+                .then(( { body }) => {
+                    assert.equal(body.attendance, stop.attendance);
                 });
         });
     });
