@@ -53,7 +53,7 @@ describe('Tours API', () => {
     });
 
     const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
-
+    const getFields = ({ _id, title, launchDate }) => ({ _id, title, launchDate });
     it('gets a tour by id', () => {
         return Tour.create(fall).then(roundTrip)
             .then(saved => {
@@ -63,6 +63,13 @@ describe('Tours API', () => {
             .then(({ body }) => {
                 fall.stops[0]._id = body.stops[0]._id;
                 assert.deepEqual(body, fall);
+            });
+    });
+
+    it('gets all tours, returns id, title, launchDate', () => {
+        return request.get('/tours')
+            .then(({ body }) => {
+                assert.deepEqual(body, [spring, fall].map(getFields));
             });
     });
 
