@@ -1,11 +1,11 @@
 const http = require('http');
 const express = require('express');
 const app = express();
-const connect = require('./lib/connect');
+const connect = require('./lib/utility/connect');
 
 const PORT = process.env.PORT || 3000;
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/circus';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tours';
 
 connect(MONGODB_URI);
 
