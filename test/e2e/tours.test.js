@@ -14,6 +14,12 @@ describe('Tour API', () => {
         stops: []
     };
 
+    let tour2 = {
+        title: 'Carnival 2',
+        activities: ['juggling', 'trapeze', 'fire breathing'],
+        stops: []
+    };
+
     it('saves a tour', () => {
         return request.post('/tours')
             .send(tour1)
@@ -28,6 +34,35 @@ describe('Tour API', () => {
                     ...tour1
                 });
                 tour1 = body;
+            });
+    });
+
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    it('gets a tour by id', () => {
+        return Tour.create(tour2).then(roundTrip)
+            .then(saved => {
+                tour2 = saved;
+                return request.get(`/tours/${tour2._id}`);
+            })
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, tour2);
+            });
+    });
+
+    it('updates a tour', () => {
+        tour2.title = 'Carnival 2.0';
+
+        return request.put(`/tours/${tour2._id}`)
+            .send(tour2)
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, tour2);
+                return Tour.findById(tour2._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, tour2);
             });
     });
 
