@@ -86,5 +86,22 @@ describe('tour api', () => {
             });
     });
 
+    it('gets all tours', () => {
+        return request.get('/tours')
+            .then(({ body }) => {
+                assert.deepEqual(body, [tourA, tourB]);
+            });
+    });
+
+    it('deletes tour', () => {
+        return request.delete(`/tours/${tourB._id}`)
+            .then(() => {
+                return Tour.findById(tourB._id);
+            })
+            .then(found => {
+                assert.isNull(found);
+            });
+    });
+
 
 });
