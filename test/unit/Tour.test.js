@@ -49,7 +49,7 @@ describe('Tour Model', () => {
         assert.equal(errors.title.kind, 'required');    
     });
 
-    it('attendance must be at least 1', () => {
+    it('attendance must be at least 10', () => {
         const tour = new Tour({
             stops: [
                 { attendance: 9 }
