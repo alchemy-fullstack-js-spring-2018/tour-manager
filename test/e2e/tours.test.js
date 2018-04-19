@@ -104,4 +104,42 @@ describe('tour api', () => {
     });
 
 
+
+
+    const checkOk = res => {
+        if(!res.ok) throw res.error;
+        return res;
+    };
+
+    describe('tour stops', () => {
+        const stop = {
+            location: {
+                city: 'LA',
+                state: 'CA',
+                zip: '90210'
+            },
+            weather: {
+                temperature: '100',
+                sunset: '8pm'
+            },
+            attendance: 100
+        };
+
+        it('adds a stop', () => {
+            return request.post(`/tours/${tourA._id}/stops`)
+                .send(stop)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.isDefined(body._id);
+                    stop._id = body._id;
+                    assert.deepEqual(body, stop);
+
+                    return Tour.findById(tourA._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops[1], stop)
+                });
+        });
+
+    });
 });
