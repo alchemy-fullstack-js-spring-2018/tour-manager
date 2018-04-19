@@ -59,5 +59,12 @@ describe('Tour API', () => {
                 assert.deepEqual(updated, volta);
             });
     });
+
+    it('gets all tours', () => {
+        return request.get('/tours')
+            .then(({ body }) => {
+                assert.deepEqual(body, [volta, corteo]);
+            });
+    });
 });
 
