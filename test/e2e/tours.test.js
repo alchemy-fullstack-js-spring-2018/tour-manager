@@ -42,6 +42,8 @@ describe('Tours API', () => {
             .send(spring)
             .then(({ body }) => {
                 const { _id, __v, launchDate } = body;
+                spring.launchDate = launchDate;
+                spring.stops[0]._id = body.stops[0]._id;
                 assert.ok(_id);
                 assert.ok(launchDate);
                 assert.equal(__v, 0);
