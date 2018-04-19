@@ -137,7 +137,7 @@ describe('tour api', () => {
                     return Tour.findById(tourA._id).then(roundTrip);
                 })
                 .then(({ stops }) => {
-                    assert.deepEqual(stops[1], stop)
+                    assert.deepEqual(stops[1], stop);
                 });
         });
 
@@ -148,6 +148,17 @@ describe('tour api', () => {
                 .then(checkOk)
                 .then(({ body }) => {
                     assert.equal(body.attendance, stop.attendance);
+                });
+        });
+
+        it('removes a stop', () => {
+            return request.delete(`/tours/${tourA._id}/stops/${stop._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(tourA._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.isUndefined(stops._id);
                 });
         });
 
