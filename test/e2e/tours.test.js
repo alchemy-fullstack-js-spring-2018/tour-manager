@@ -102,5 +102,15 @@ describe('Tours API', () => {
                 assert.deepEqual(updated, spring);
             });
     });
+
+    it('deletes a tour', () => {
+        return request.delete(`/tours/${spring._id}`)
+            .then(() => {
+                return Tour.findById(spring._id);
+            })
+            .then(found => {
+                assert.isNull(found);
+            });
+    });
     
 });
