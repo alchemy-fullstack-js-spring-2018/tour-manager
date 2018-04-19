@@ -23,7 +23,6 @@ describe('Tour API', () => {
         return request.post('/tours')
             .send(volta)
             .then(({ body }) => {
-                console.log('BODY!!!', body);
                 const { _id, __v, launchDate } = body;
                 assert.ok(_id);
                 assert.equal(__v, 0);
@@ -36,7 +35,8 @@ describe('Tour API', () => {
     const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
 
     it('gets a tour by id', () => {
-        require Tour.create(corteo).then(roundTrip)
+        return Tour.create(corteo)
+            .then(roundTrip)
             .then(saved => {
                 corteo = saved;
                 return request.get(`/tours/${corteo._id}`);
