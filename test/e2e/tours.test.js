@@ -9,7 +9,6 @@ describe('Tour API', () => {
     let moMy = {
         title: 'Mongo Mystique',
         activities: ['curly brace juggling', 'id clowning', 'dollar sign magic', 'schema swallowing'],
-        launchDate: new Date(),
         stops: []
     };
 
@@ -19,23 +18,18 @@ describe('Tour API', () => {
         stops: []
     };
 
-    it('saves and gets a tour', () => {
-        return new Tour(moMy).save()
-            .then(saved => {
-                saved = saved.toJSON();
-                const { _id, __v, launchDate } = saved;
+    it('saves and gets a tour (POST)', () => {
+        return request.post('/tours')
+            .send(moMy)
+            .then(({ body }) => {
+                const { _id, __v, launchDate } = body;
                 assert.ok(_id);
                 assert.equal(__v, 0);
                 assert.ok(launchDate);
-                assert.deepEqual(saved, {
-                    _id, __v, launchDate,
-                    ...moMy
+                assert.deepEqual(body, {
+                    _id, __v, launchDate, ...moMy
                 });
-                moMy = saved;
-                return Tour.findById(saved._id).lean();
-            })
-            .then(found => {
-                assert.deepEqual(found, moMy);
+                moMy = body;
             });
     });
 }); 
