@@ -31,4 +31,31 @@ describe('Tour API', () => {
                 tour1 = body;
             });
     });
+
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    it('GET - a tour by ID', () => {
+        return Tour.create(tour2).then(roundTrip)
+            .then(saved => {
+                tour2 = saved;
+                return request.get(`/tours/${tour2._id}`);
+            })
+            .then(({ body }) => {
+                assert.deepEqual(body, tour2);
+            });
+    });
+
+    it('PUT - update a tour', () => {
+        tour2.name = 'Further Reign of the Circus Tour';
+
+        return request.put(`/tours/${tour2._id}`)
+            .send(tour2)
+            .then(({ body }) => {
+                assert.deepEqual(body, tour2);
+                return Tour.findById(tour2._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, tour2);
+            });
+    });
 });
