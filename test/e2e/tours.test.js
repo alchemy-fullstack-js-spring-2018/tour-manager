@@ -58,4 +58,11 @@ describe('Tour API', () => {
                 assert.deepEqual(updated, tour2);
             });
     });
+
+    it('GET - all tours', () => {
+        return request.get('/tours')
+            .then(({ body }) => {
+                assert.deepEqual(body, [tour1, tour2]);
+            });
+    });
 });
