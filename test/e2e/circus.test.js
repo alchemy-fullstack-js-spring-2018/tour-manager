@@ -64,11 +64,12 @@ describe('Circus API', () => {
             })
             .then(updated => {
                 assert.deepEqual(updated, smirkus);
+                smirkus = updated;
             });
     });
 
     it('deletes a circus', () => {
-        return request.delete(`/circus/${smirkus._id}`)
+        return request.delete(`/tours/${smirkus._id}`)
             .then(checkOk)
             .then(() => {
                 return Circus.findById(smirkus._id);
