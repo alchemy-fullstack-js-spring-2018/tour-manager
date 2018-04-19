@@ -1,8 +1,8 @@
 const { assert } = require('chai');
 const zipProcessor = require('../../lib/util/zip-processor');
 
-describe('location enhancer middleware', () => {
-    it('takes a data-fetching function and a zip code and updates the request body with information about that location, then calls next', () => {
+describe('zip code processor', () => {
+    it('takes a data-fetching function and returns middleware that updates the request body with information about a location, then calls next', () => {
         const mockFetchFunction = () => {
             return Promise.resolve({
                 location: {
