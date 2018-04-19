@@ -117,4 +117,42 @@ describe('Tour API', () => {
                 assert.match(response.body.error, /^Tour id/);
             });
     });
+
+    const checkOk = res => {
+        if(!res.ok) throw res.error;
+        return res;
+    };
+
+    describe('Tour stops API', () => {
+        /* eslint-disable-next-line */
+        const stop = {
+            location: {
+                city: 'Portland',
+                state: 'OR',
+                zip: '97205'
+            },
+            weather: {
+                condition: 'Cloudy',
+                windSpeed: '5mph',
+                sunset: 'Like 9',
+            },
+            attendance: 1
+        };
+        
+        it('Adds a stop', () => {
+            return request.post(`/tours/${woodstock._id}/stops`)
+                .send(stop)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.isDefined(body._id);
+                    stop._id = body._id;
+                    assert.deepEqual(body, stop);
+                
+                    return Tour.findById(woodstock._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops[1], stop);
+                });
+        });
+    });
 });
