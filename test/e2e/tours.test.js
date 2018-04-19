@@ -73,5 +73,12 @@ describe('Tours API', () => {
             });
     });
 
+    it('queries tours', () => {
+        return request.get('/tours?title=Fallsout Tour')
+            .then(({ body }) => {
+                assert.deepEqual(body, [fall].map(getFields));
+            });
+    });
+
     
 });
