@@ -78,4 +78,11 @@ describe('Circus API', () => {
                 assert.isNull(found);
             });
     });
+
+    it('returns 404 on get of non-existent id', () => {
+        return request.get(`/tours/${smirkus._id}`)
+            .then(response => {
+                assert.equal(response.status, 404);
+            });
+    });
 });
