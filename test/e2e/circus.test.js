@@ -15,15 +15,11 @@ describe('Circus API', () => {
         stops: [],
     };
 
-    // let zoro = {
-    //     name: 'Roronoa Zoro',
-    //     role: 'crew',
-    //     crew: 'Straw Hats',
-    //     wardrobe: {
-    //         shoes: 'boots'
-    //     },
-    //     weapons: []
-    // };
+    let smirkus = {
+        title: 'Smirkus',
+        activities: ['trapeze', 'creepy children'],
+        stops: [],
+    };
 
     const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
 
@@ -41,6 +37,33 @@ describe('Circus API', () => {
                     _id, __v, launched
                 });
                 montyPython = body;
+            });
+    });
+
+    it('gets a circus by id', () => {
+        return Circus.create(smirkus).then(roundTrip)
+            .then(saved => {
+                smirkus = saved;
+                return request.get(`/tours/${smirkus._id}`);
+            })
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, smirkus);
+            });
+    });
+
+    it('update a pirate', () => {
+        smirkus.activities[1] = 'clowns';
+
+        return request.put(`/tours/${smirkus._id}`)
+            .send(smirkus)
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, smirkus);
+                return Circus.findById(smirkus._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, smirkus);
             });
     });
 });
