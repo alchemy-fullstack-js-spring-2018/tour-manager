@@ -52,7 +52,7 @@ describe('Circus API', () => {
             });
     });
 
-    it('update a pirate', () => {
+    it('update a circus', () => {
         smirkus.activities[1] = 'clowns';
 
         return request.put(`/tours/${smirkus._id}`)
@@ -64,6 +64,17 @@ describe('Circus API', () => {
             })
             .then(updated => {
                 assert.deepEqual(updated, smirkus);
+            });
+    });
+
+    it('deletes a circus', () => {
+        return request.delete(`/circus/${smirkus._id}`)
+            .then(checkOk)
+            .then(() => {
+                return Circus.findById(smirkus._id);
+            })
+            .then(found => {
+                assert.isNull(found);
             });
     });
 });
