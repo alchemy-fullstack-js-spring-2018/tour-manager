@@ -66,5 +66,12 @@ describe('Tour API', () => {
                 assert.deepEqual(body, [volta, corteo]);
             });
     });
+
+    it('queries tours', () => {
+        return request.get('/tours?title=VOLTA')
+            .then(({ body }) => {
+                assert.deepEqual(body, [volta]);
+            });
+    });
 });
 
