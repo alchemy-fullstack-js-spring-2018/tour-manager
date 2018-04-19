@@ -96,7 +96,7 @@ describe('Tours API', () => {
             .send(spring)
             .then(({ body }) => {
                 assert.deepEqual(body, spring);
-                return Tour.findById(spring._id).then(roundTrip)
+                return Tour.findById(spring._id).then(roundTrip);
             })
             .then(updated => {
                 assert.deepEqual(updated, spring);
