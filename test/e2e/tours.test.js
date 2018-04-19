@@ -112,5 +112,50 @@ describe('Tours API', () => {
                 assert.isNull(found);
             });
     });
+
+    const checkOk = res => {
+        if(!res.ok) throw res.error;
+        return res;
+    };
+
+    describe('Tour Stops API', () => {
+        const stop1 = {
+            location: {
+                city: 'Boston',
+                state: 'MA'
+            },
+            weather: {
+                temperature: 22,
+            },
+            attendance: 356
+        };
+
+        const stop2 = {
+            location: {
+                city: 'Savannah',
+                state: 'GA'
+            },
+            weather: {
+                temperature: 75,
+            },
+            attendance: 428
+        };
+
+        it('adds a stop', () => {
+            return request.post(`/tours/${fall._id}/stops`)
+                .send(stop2)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.isDefined(body._id);
+                    stop2._id = body._id;
+                    assert.deepEqual(body, stop2);
+                    return Tour.findById(fall._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops, [stop1, stop2]);
+                });
+        });
+    });
+
     
 });
