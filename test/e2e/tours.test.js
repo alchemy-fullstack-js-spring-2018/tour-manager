@@ -83,4 +83,13 @@ describe('Tour API', () => {
                 assert.deepEqual(updated, ozfest);
             });
     });
+
+    const getFields = ({ _id, title, launchDate, activities}) => ({ _id, title, launchDate, activities});
+
+    it('Gets all tours, but only specific properties', () => {
+        return request.get('/tours')
+            .then(( { body }) => {
+                assert.deepEqual(body, [woodstock, ozfest].map(getFields));
+            });
+    });
 });
