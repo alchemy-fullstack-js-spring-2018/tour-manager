@@ -8,8 +8,8 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
+    "lint": "",
+    "pretest": "",
     "test:mocha": "mocha  --recursive",
     "test": "npm run test:mocha",
     "test:unit": "mocha test/unit",
