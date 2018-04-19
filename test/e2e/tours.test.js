@@ -125,6 +125,17 @@ describe('Clown Tour API', () => {
                 });
         });
 
+        it('removes a stop', () => {
+            return request.delete(`/tours/${clownFiesta._id}/stops/${seattle._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(clownFiesta._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops, []);
+                });
+        });
+
     });
 
 
