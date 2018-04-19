@@ -34,4 +34,10 @@ describe('Tour Model', () => {
 
         assert.isUndefined(tour.validateSync());
     });
+
+    it('has default date of now', () => {
+        const tour = new Tour({ title: 'VOLTA' });
+        assert.ok(tour.launchDate);
+        assert.isAtMost(tour.launchDate - Date.now(), 5);
+    });
 });
