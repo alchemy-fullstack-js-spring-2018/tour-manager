@@ -85,4 +85,51 @@ describe('Circus API', () => {
                 assert.equal(response.status, 404);
             });
     });
+
+    describe('Circus Stops API', () => {
+
+        const comfy = { 
+            location : {
+                city: 'Comfy Chair',
+                zip: '97030'
+            },
+            attendence: 42 };
+
+        it('Adds a stop', () => {
+            return request.post(`/tours/${montyPython._id}/stops`)
+                .send(comfy)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.isDefined(body._id);
+                    comfy._id = body._id;
+                    assert.deepEqual(body, comfy);
+
+                    return request.get(`/tours/${montyPython._id}`);
+                })
+                .then(({ body }) => {
+                    assert.deepEqual(body.stops, [comfy]);
+                });
+        });
+
+        // it('Updates a stop', () => {
+        //     weapon.damage = 16;
+        //     return request.put(`/pirates/${luffy._id}/weapons/${weapon._id}`)
+        //         .send(weapon)
+        //         .then(checkOk)
+        //         .then(({ body }) => {
+        //             assert.equal(body.damage, weapon.damage);
+        //         });
+        // });
+
+        // it('Removes a stop', () => {
+        //     return request.delete(`/pirates/${luffy._id}/weapons/${weapon._id}`)
+        //         .then(checkOk)
+        //         .then(() => {
+        //             return request.get(`/pirates/${luffy._id}`);                    
+        //         })
+        //         .then(({ body }) => {
+        //             assert.deepEqual(body.weapons, []);
+        //         });
+        // });
+    });
 });
