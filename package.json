@@ -1,0 +1,41 @@
+{
+  "name": "tour-manager",
+  "version": "1.0.0",
+  "description": "Circus Tour Manager ===",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test:mocha": "mocha  --recursive",
+    "test": "npm run test:mocha",
+    "test:unit": "mocha test/unit",
+    "test:e2e": "mocha test/e2e",
+    "test:watch": "nodemon --exec 'npm run test:mocha'",
+    "test:e2e:watch": "nodemon --exec 'npm run test:e2e'",
+    "test:unit:watch": "nodemon --exec 'npm run test:unit'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelihansen/tour-manager.git"
+  },
+  "keywords": [],
+  "author": "Keli Hansen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kelihansen/tour-manager/issues"
+  },
+  "homepage": "https://github.com/kelihansen/tour-manager#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "eslint": "^4.19.1",
+    "mocha": "^5.1.1",
+    "nodemon": "^1.17.3"
+  },
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.15",
+    "morgan": "^1.9.0"
+  }
+}
