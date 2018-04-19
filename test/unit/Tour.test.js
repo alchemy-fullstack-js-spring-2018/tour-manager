@@ -8,7 +8,7 @@ describe('Tour model', () => {
             title: 'Spring swing',
             activities: ['fire-breathing', 'acrobatics', 'lion snuggling'],
             launchDate: new Date(),
-            stops: {
+            stops: [{
                 location: {
                     city: 'Gary',
                     state: 'IN'
@@ -17,11 +17,13 @@ describe('Tour model', () => {
                     temperature: 102,
                 },
                 attendance: 27890
-            }
+            }]
         };
 
         const tour = new Tour(data);
+        data._id = tour._id;
+        data.stops[0]._id = tour.stops[0]._id;
         assert.deepEqual(tour.toJSON(), { _id: tour._id, ...data });
-        assert.isUndefined(tour.validatedSync());
+        assert.isUndefined(tour.validateSync());
     });
 });
