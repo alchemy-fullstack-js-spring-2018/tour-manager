@@ -1,7 +1,7 @@
 const http = require('http');
 /* eslint no-console: off */
 const app = require('./lib/app');
-const connect =require('./lib/connect.js');
+const connect = require('./lib/connect.js');
 
 const PORT = process.env.PORT || 3000;
 
