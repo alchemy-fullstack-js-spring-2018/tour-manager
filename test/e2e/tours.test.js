@@ -48,5 +48,10 @@ describe('Tour API', () => {
             });
     });
 
-
+    it('gets a tour by id (GET)', () => {
+        return request.get(`/tours/${moMy._id}`)
+            .then(({ body }) => {
+                assert.deepEqual(body, moMy);
+            });
+    });
 }); 
