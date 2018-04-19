@@ -163,5 +163,16 @@ describe('Tour API', () => {
                     assert.equal(body.attendance, stop.attendance);
                 });
         });
+
+        it('Deletes a stop', () => {
+            return request.delete(`/tours/${woodstock._id}/stops/${stop._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(woodstock._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops.length, 1);
+                });
+        });
     });
 });
