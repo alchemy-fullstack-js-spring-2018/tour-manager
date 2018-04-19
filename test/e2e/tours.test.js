@@ -141,5 +141,15 @@ describe('tour api', () => {
                 });
         });
 
+        it('updates stop', () => {
+            stop.attendance = 50;
+            return request.put(`/tours/${tourA._id}/stops/${stop._id}`)
+                .send(stop)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.equal(body.attendance, stop.attendance);
+                });
+        });
+
     });
 });
