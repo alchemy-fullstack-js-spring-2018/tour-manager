@@ -65,4 +65,15 @@ describe('Tour API', () => {
                 assert.deepEqual(body, [tour1, tour2]);
             });
     });
+
+    it('DELETE - a tour', () => {
+        return request.delete(`/tours/${tour1._id}`)
+            .then(() => {
+                return Tour.findById(tour1._id);
+            })
+            .then(found => {
+                console.log(found);
+                assert.isNull(found);
+            });
+    });
 });
