@@ -114,7 +114,7 @@ describe('Tour API', () => {
         return request.get(`/tours/${ozfest._id}`)
             .then(response => {
                 assert.equal(response.status, 404);
-                assert.match(response.body.error, /^Pirate id/);
+                assert.match(response.body.error, /^Tour id/);
             });
     });
 });
