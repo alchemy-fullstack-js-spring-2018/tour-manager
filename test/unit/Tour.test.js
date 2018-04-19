@@ -49,4 +49,10 @@ describe('Tour model', () => {
         assert.equal(errors.title.kind, 'required');
         assert.equal(errors['stops.0.location.zip'].kind, 'required');
     });
+
+    it('can store a subdocument with an attendance field with a minimum value of 1', () => {
+        const tour = new Tour({ stops: [{ attendance: 0 }] });
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(errors['stops.0.attendance'].kind, 'min');
+    });
 });
