@@ -27,4 +27,16 @@ describe('Tour model', () => {
         data.stops[0]._id = tour.stops[0]._id;
         assert.deepEqual(tour.toJSON(), data);  
     });
+
+    const getValidationErrors = validation => {
+        assert.isDefined(validation, 'expected errors but got none');
+        return validation.errors;
+    };
+
+    it('title is require field', () => {
+        const tour = new Tour({});
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(Object.keys(errors).length, 1);
+        assert.equal(errors.title.kind, 'required');
+    });
 });
