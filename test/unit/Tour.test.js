@@ -32,9 +32,31 @@ describe('Tour Model', () => {
     });
 
     it('has default date of now', () => {
-        const tour = new Tour({ title: 'Miami' });
+        const tour = new Tour({ title: 'Carnival' });
         assert.ok(tour.launchDate);
         assert.isAtMost(tour.launchDate - Date.now(), 5);
+    });
+
+    const getValidationErrors = validation => {
+        assert.isDefined(validation, 'expected validation errors but got none');
+        return validation.errors;
+    };
+
+    it('required fields', () => {
+        const tour = new Tour({});
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(Object.keys(errors).length, 1);
+        assert.equal(errors.title.kind, 'required');    
+    });
+
+    it('attendance must be at least 1', () => {
+        const tour = new Tour({
+            stops: [
+                { attendance: 9 }
+            ]
+        });
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(errors['stops.0.attendance'].kind, 'min');
     });
 
 });
