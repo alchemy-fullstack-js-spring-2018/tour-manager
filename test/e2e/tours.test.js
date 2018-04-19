@@ -72,8 +72,15 @@ describe('Tour API', () => {
                 return Tour.findById(tour1._id);
             })
             .then(found => {
-                console.log(found);
                 assert.isNull(found);
+            });
+    });
+
+    it('POST - add new stop', () => {
+        return request.post(`/tours/${tour1._id}/stops`)
+            .send(97205)
+            .then(({ body }) => {
+                console.log(body);
             });
     });
 });
