@@ -95,7 +95,7 @@ describe('Circus API', () => {
             },
             attendence: 42 };
 
-        it('Adds a stop', () => {
+        it('Adds a stop with weather', () => {
             return request.post(`/tours/${montyPython._id}/stops`)
                 .send(comfy)
                 .then(checkOk)

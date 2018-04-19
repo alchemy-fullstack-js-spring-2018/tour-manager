@@ -1,5 +1,6 @@
 const { assert } = require('chai');
 const Circus = require('../../lib/models/Circus');
+const findZip = require('../../lib/util/find-zip');
 
 describe('circus model', () => {
 
@@ -77,6 +78,31 @@ describe('circus model', () => {
         });
         const { errors } = circus.validateSync();
         assert.equal(errors['stops.0.weather.temperature'].kind, 'maxlength');
+    });
+
+    it('tests middleware', () => {
+        const location = {};
+        const weather = {};
+        const zip = '97030';
+        const api = zip => {
+            api.zip = zip;
+            return Promise.resolve({ weather, location });
+        };
+        
+        const middleware = findZip(api);
+
+        const req = {
+            body: { zip }
+        };
+
+        const next = () => {
+        
+            assert.deepEqual(api.zip.zip, zip);
+            assert.equal(req.body.weather, weather);
+        };
+        
+        middleware(req, null, next);
 
     });
+    
 });
