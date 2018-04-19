@@ -26,7 +26,7 @@ describe('Tour API', () => {
 
     let ozfest = {
         title: 'Ozfest',
-        activities: ['worshopping the devil', 'head banging'],
+        activities: ['worshipping the devil', 'head banging'],
         launchDate: new Date('October 1, 2018 00:00:00'),
         stops: [{
             location: {
@@ -107,6 +107,14 @@ describe('Tour API', () => {
             })
             .then(found => {
                 assert.isNull(found);
+            });
+    });
+
+    it('Successful 404 functionality', () =>{
+        return request.get(`/tours/${ozfest._id}`)
+            .then(response => {
+                assert.equal(response.status, 404);
+                assert.match(response.body.error, /^Pirate id/);
             });
     });
 });
