@@ -39,4 +39,14 @@ describe('Tour model', () => {
         assert.equal(Object.keys(errors).length, 1);
         assert.equal(errors.title.kind, 'required');
     });
+
+    it('attendance must be at least 1', () => {
+        const tour = new Tour({ 
+            stops:[{
+                attendance: 0
+            }] 
+        });
+        const errors = getValidationErrors(tour.validateSync());
+        assert.equal(errors['stops.0.attendance'].kind, 'min');
+    });
 });
