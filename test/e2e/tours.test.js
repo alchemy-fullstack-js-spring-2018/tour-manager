@@ -58,7 +58,7 @@ describe('Tours API', () => {
         return Tour.create(fall).then(roundTrip)
             .then(saved => {
                 fall = saved;
-                return request.get(`tours/${fall._id}`);
+                return request.get(`/tours/${fall._id}`);
             })
             .then(({ body }) => {
                 fall.stops[0]._id = body.stops[0]._id;
