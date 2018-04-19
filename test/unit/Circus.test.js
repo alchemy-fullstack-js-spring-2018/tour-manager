@@ -40,4 +40,43 @@ describe('circus model', () => {
         assert.equal(Object.keys(errors).length, 2);
         assert.equal(errors['activities.0'].kind, 'maxlength');
     });
+
+    it('attendence at least 1', () => {
+        const circus = new Circus({
+            stops: [
+                { attendence: 0 },
+            ]
+        });
+        const { errors } = circus.validateSync();
+        assert.equal(errors['stops.0.attendence'].kind, 'min');
+    });
+
+    it('stop at known state, zip required', () => {
+        const circus = new Circus({
+            stops: [
+                { location: {
+                    state: 'IG'
+                } },
+            ]
+        });
+        const { errors } = circus.validateSync();
+        assert.equal(errors['stops.0.location.state'].kind, 'enum');
+        assert.equal(errors['stops.0.location.zip'].kind, 'required');
+
+    });
+
+    it('weather data formatting', () => {
+        const circus = new Circus({
+            stops: [
+                { weather: {
+                    temperature: '4004 F',
+                    percipitation: true,
+                    wind: false
+                } },
+            ]
+        });
+        const { errors } = circus.validateSync();
+        assert.equal(errors['stops.0.weather.temperature'].kind, 'maxlength');
+
+    });
 });
