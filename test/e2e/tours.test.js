@@ -45,4 +45,19 @@ describe('Tour API', () => {
                 assert.deepEqual(body, corteo);
             });
     });
+
+    it('update a tour by id', () => {
+        volta.activities = ['street sports', 'acrobatics'];
+
+        return request.put(`/tours/${volta._id}`)
+            .send(volta)
+            .then(({ body }) => {
+                assert.deepEqual(body, volta);
+                return Tour.findById(volta._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, volta);
+            });
+    });
 });
+
