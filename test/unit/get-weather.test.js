@@ -1,14 +1,29 @@
 /* eslint no-console: off */
-const dotenv = require('dotenv');
-dotenv.config();
-const zip = '97211';
+// const { assert } = require('chai');
+// const dotenv = require('dotenv');
+// dotenv.config();
 
-const getWeatherLocation = require('../../lib/util//get-weather-location');
+// const getWeatherLocation = require('../../lib/util//get-weather');
 
-getWeatherLocation(zip)
-    .then(output => {
-        console.log(output);
-    })
-    .catch(err => {
-        console.log(`Error: ${err}`);
-    });
+// describe('Weather API', () => {
+
+//     it('finds portland weather', () => {
+
+//         const req = {
+//             body: {
+//                 location: {
+//                     zip: '97211'
+//                 }
+//             }
+//         };
+        
+//         getWeatherLocation(req.body.)
+//             .then(output => {
+//                 console.log(output);
+//                 assert.deepEqual(output, portland);
+//             })
+//             .catch(err => {
+//                 console.log(`Error: ${err}`);
+//             });
+//     });
+// });
