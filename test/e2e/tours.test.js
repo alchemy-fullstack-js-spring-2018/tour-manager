@@ -55,6 +55,7 @@ describe('tour api', () => {
                     ...tourA,
                     launchDate
                 });
+                tourA = body;
             });
     });
 
@@ -68,6 +69,20 @@ describe('tour api', () => {
             })
             .then(({ body }) => {
                 assert.deepEqual(body, tourB);
+            });
+    });
+
+    it('update tour', () => {
+        tourA.title = 'New title';
+
+        return request.put(`/tours/${tourA._id}`)
+            .send(tourA)
+            .then(({ body }) => {
+                assert.deepEqual(body, tourA);
+                return Tour.findById(tourA._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, tourA);
             });
     });
 
