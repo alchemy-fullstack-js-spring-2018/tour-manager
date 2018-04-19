@@ -58,5 +58,18 @@ describe('tour api', () => {
             });
     });
 
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    it('gets tour by id', () => {
+        return Tour.create(tourB).then(roundTrip)
+            .then(saved => {
+                tourB = saved;
+                return request.get(`/tours/${tourB._id}`);
+            })
+            .then(({ body }) => {
+                assert.deepEqual(body, tourB);
+            });
+    });
+
 
 });
