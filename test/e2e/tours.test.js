@@ -153,11 +153,8 @@ describe('Tours API', () => {
                 .then(checkOk)
                 .then(({ body }) => {
                     assert.equal(body.attendance, stop2.attendance)
-                })
-        })
-        
+                });
         });
-    });
 
-    
+    });
 });
