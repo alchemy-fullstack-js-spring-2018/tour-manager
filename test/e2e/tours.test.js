@@ -76,11 +76,10 @@ describe('Tour API', () => {
             });
     });
 
-    // it('POST - add new stop', () => {
-    //     return request.post(`/tours/${tour1._id}/stops`)
-    //         .send(97205)
-    //         .then(({ body }) => {
-    //             console.log(body);
-    //         });
-    // });
+    it('POST - add new stop', () => {
+        return request.post(`/tours/${tour1._id}/stops?zip=97205`)
+            .then(({ body }) => {
+                console.log(body);
+            });
+    });
 });

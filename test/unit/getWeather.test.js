@@ -1,8 +1,8 @@
 const { assert } = require('chai');
 const getWeather = require('../../lib/util/getWeather');
 
-describe('getWeather Middleware', () => {
-    it('Augments req.body with location/weather info', () => {
+describe.skip('getWeather Middleware', () => {
+    it.skip('Augments req.body with location/weather info', () => {
         const weatherData = {
             weather: {
                 temperature: '55',
