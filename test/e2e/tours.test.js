@@ -5,10 +5,12 @@ const { dropCollection } = require('./db');
 
 describe('Tour API', () => {
 
-    const volta = {
+    before(() => dropCollection('tours'));
+
+    let volta = {
         title: 'VOLTA',
         activities: ['street sports', 'gameshow', 'acrobatics'],
-        launchDate: new Date(),
+        // launchDate: new Date(),
         stops: [{
             location: {
                 city: 'Portland',
@@ -28,11 +30,15 @@ describe('Tour API', () => {
     };
 
     it('it saves a tour', () => {
-        return new Tour(volta).save()
-            .then(saved => {
-                const { _id, __v } = saved;
+        return request.post('/tours')
+            .send(volta)
+            .then(({ body }) => {
+                const { _id, __v, lanchDate } = body;
                 assert.ok(_id);
                 assert.equal(__v, 0);
+                assert.ok(lanchDate);
+                assert.deepEqual(body, { _id, __v, lanchDate, ...volta });
+                volta = body;
             });
     });
 });
