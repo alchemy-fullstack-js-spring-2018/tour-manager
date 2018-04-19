@@ -5,7 +5,7 @@ const connect = require('./lib/util/connect');
 
 const PORT = process.env.PORT || 3002;
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pirates';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/stops';
 
 connect(MONGODB_URI);
 
