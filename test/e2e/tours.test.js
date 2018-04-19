@@ -77,12 +77,20 @@ describe('Tour API', () => {
     it('deletes a tour', () => {
         return request.delete(`/tours/${corteo._id}`)
             .then(() => {
-                return Tour.findById(`/tours/${corteo._id}`);
+                return Tour.findById(corteo._id);
             })
             .then(found => {
                 assert.isNull(found);
             });
     });
-    
+
+    it('returns 404 on get of non-existent id', () => {
+        return request.get(`/tours/${corteo._id}`)
+            .then(response => {
+                // console.log('RES!!!!', response);
+                assert.equal(response.status, 404);
+            });
+    });
+
 });
 
