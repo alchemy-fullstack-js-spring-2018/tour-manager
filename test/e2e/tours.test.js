@@ -123,6 +123,20 @@ describe('Tour API', () => {
                 });
         });
 
+        it('updates a stop', () => {
+            stop1.attendance = 300;
+
+            return request.put(`/tours/${tour1._id}/stops/${stop1._id}`)
+                .send(stop1)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(tour1._id).select('stops');
+                })
+                .then(tour => {
+                    assert.equal(tour.stops[0].attendance, stop1.attendance);
+                });
+        });
+
     });
 
 });
