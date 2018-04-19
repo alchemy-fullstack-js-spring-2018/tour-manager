@@ -5,7 +5,7 @@ const connect = require('./lib/connect.js');
 
 const PORT = process.env.PORT || 3000;
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/videogames';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/circustour';
 
 connect(MONGODB_URI);
 
