@@ -50,5 +50,6 @@ describe('Tour Model', () => {
         const tour = new Tour({});
         const errors = getValidationErrors(tour.validateSync());
         assert.equal(Object.keys(errors).length, 1);
+        assert.equal(errors.title.kind, 'required');
     });
 });
