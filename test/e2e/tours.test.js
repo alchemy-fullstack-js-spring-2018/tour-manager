@@ -26,7 +26,7 @@ describe('Tour API', () => {
 
     let ozfest = {
         title: 'Ozfest',
-        activities: ['worshopping the devil', 'head banging'],
+        activities: ['worshipping the devil', 'head banging'],
         launchDate: new Date('October 1, 2018 00:00:00'),
         stops: [{
             location: {
@@ -108,5 +108,71 @@ describe('Tour API', () => {
             .then(found => {
                 assert.isNull(found);
             });
+    });
+
+    it('Successful 404 functionality', () =>{
+        return request.get(`/tours/${ozfest._id}`)
+            .then(response => {
+                assert.equal(response.status, 404);
+                assert.match(response.body.error, /^Tour id/);
+            });
+    });
+
+    const checkOk = res => {
+        if(!res.ok) throw res.error;
+        return res;
+    };
+
+    describe('Tour stops API', () => {
+        /* eslint-disable-next-line */
+        const stop = {
+            location: {
+                city: 'Portland',
+                state: 'OR',
+                zip: '97205'
+            },
+            weather: {
+                condition: 'Cloudy',
+                windSpeed: '5mph',
+                sunset: 'Like 9',
+            }
+        };
+        
+        it('Adds a stop', () => {
+            return request.post(`/tours/${woodstock._id}/stops`)
+                .send(stop)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.isDefined(body._id);
+                    stop._id = body._id;
+                    assert.deepEqual(body, stop);
+                
+                    return Tour.findById(woodstock._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops[1], stop);
+                });
+        });
+
+        it('Adds attendance to a stop', () => {
+            stop.attendance = 10;
+            return request.put(`/tours/${woodstock._id}/stops/${stop._id}/attendance`)
+                .send(stop)
+                .then(checkOk)
+                .then(( { body }) => {
+                    assert.equal(body.attendance, stop.attendance);
+                });
+        });
+
+        it('Deletes a stop', () => {
+            return request.delete(`/tours/${woodstock._id}/stops/${stop._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(woodstock._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops.length, 1);
+                });
+        });
     });
 });
