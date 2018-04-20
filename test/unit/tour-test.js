@@ -11,34 +11,38 @@ describe('flea circus model, fingers crossed', () => {
                 locations: {
                     city: 'Yakima',
                     state: 'Washington',
-                    zip: 98901
+                    zip: '98901'
                 },
                 weather: {
                     temperature: '54°F',
                     condition: 'Partly Cloudy' 
                 },
-                audience: 386
-            },
-            {
-                locations: {
-                    city: 'Clackamas',
-                    state: 'Oregon',
-                    zip: 97015
-                },
-                weather: {
-                    temperature: '72°F',
-                    condition: 'Sunny' 
-                },
-                audience: 634
+                audience: '386'
             }]
         };
 
         const tour = new Tour(info);
 
         info._id = tour._id;
-        info.activities[0]._id = tour.activities[0]._id,
-        info.stops[0] = tour.stops[0];
+        info.stops[0]._id = tour.stops[0]._id;
         assert.deepEqual(tour.toJSON(), info);
         assert.isUndefined(tour.validateSync());
+    });
+
+    it('has default date of now', () => {
+        const newTour = new Tour({
+            title: 'test',
+            activities: ['test', 'test'],
+            stops: [{ test: 'test' }] 
+        });
+        assert.ok(newTour.launchDate);
+        assert.isAtMost(newTour.launchDate - Date.now(), 5);
+    });
+
+    it('returns error if nothing in required fields', () => {
+        const newTour = new Tour({});
+        newTour.save(err => {
+            assert.equal(err.errors['title'].message, 'Path `title` is required.');
+        });
     });
 });
