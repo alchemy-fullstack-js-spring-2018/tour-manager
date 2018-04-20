@@ -77,9 +77,9 @@ describe('Tour API', () => {
     });
 
     it('POST - add new stop', () => {
-        return request.post(`/tours/${tour1._id}/stops?zip=97205`)
-            .then(({ body }) => {
-                console.log(body);
+        return request.post(`/tours/${tour2._id}/stops?zip=97205`)
+            .then(({ body })  => {
+                assert.equal(body.stops[0].location.city, 'Portland');
             });
     });
 });
