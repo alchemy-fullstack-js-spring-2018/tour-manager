@@ -78,4 +78,11 @@ describe('Tour API', () => {
                 assert.isNull(found);
             });
     });
+
+    it('returns a 404 if id not found (GET)', () => {
+        return request.get(`/tours/${moMy._id}`)
+            .then(response => {
+                assert.strictEqual(response.status, 404);
+            });
+    });
 }); 
