@@ -55,7 +55,17 @@ describe('Tour API', () => {
             });
     });
 
-    it('updates a yarn (PUT)', () => {
+    it('updates a tour (PUT)', () => {
         maMo.activities = ['data type taming', 'document contortion', 'validation feats of strength'];
+
+        return request.put(`/tours/${maMo._id}`)
+            .send(maMo)
+            .then(({ body }) => {
+                assert.deepEqual(body, maMo);
+                return Tour.findById(maMo._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, maMo);
+            });
     });
 }); 
