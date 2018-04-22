@@ -6,7 +6,7 @@ const { checkOk } = request;
 
 describe('Circus API', () => {
 
-    before(() => dropCollection('circus'));
+    before(() => dropCollection('tours'));
 
     let montyPython = {
         title: 'Monty Python\'s Flying',
@@ -88,48 +88,43 @@ describe('Circus API', () => {
 
     describe('Circus Stops API', () => {
 
-        const comfy = { 
+        let stop = { 
             location : {
-                city: 'Comfy Chair',
                 zip: '97030'
-            },
-            attendence: 42 };
+            }
+        };
 
         it('Adds a stop with weather', () => {
             return request.post(`/tours/${montyPython._id}/stops`)
-                .send(comfy)
+                .send(stop)
                 .then(checkOk)
                 .then(({ body }) => {
                     assert.isDefined(body._id);
-                    comfy._id = body._id;
-                    assert.deepEqual(body, comfy);
-
-                    return request.get(`/tours/${montyPython._id}`);
-                })
-                .then(({ body }) => {
-                    assert.deepEqual(body.stops, [comfy]);
+                    assert.isDefined(body.location.state);
+                    assert.isDefined(body.weather.temperature);
+                    stop = body;
                 });
         });
 
-        // it('Updates a stop', () => {
-        //     weapon.damage = 16;
-        //     return request.put(`/pirates/${luffy._id}/weapons/${weapon._id}`)
-        //         .send(weapon)
-        //         .then(checkOk)
-        //         .then(({ body }) => {
-        //             assert.equal(body.damage, weapon.damage);
-        //         });
-        // });
+        it('Updates a stop', () => {
+            stop.attendence = 52;
+            return request.put(`/tours/${montyPython._id}/stops/${stop._id}`)
+                .send(stop)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.equal(body.attendence, stop.damage);
+                });
+        });
 
-        // it('Removes a stop', () => {
-        //     return request.delete(`/pirates/${luffy._id}/weapons/${weapon._id}`)
-        //         .then(checkOk)
-        //         .then(() => {
-        //             return request.get(`/pirates/${luffy._id}`);                    
-        //         })
-        //         .then(({ body }) => {
-        //             assert.deepEqual(body.weapons, []);
-        //         });
-        // });
+        it('Removes a stop', () => {
+            return request.delete(`/tours/${montyPython._id}/stops/${stop._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return request.get(`/tours/${montyPython._id}`);                    
+                })
+                .then(({ body }) => {
+                    assert.deepEqual(body.stops, []);
+                });
+        });
     });
 });
