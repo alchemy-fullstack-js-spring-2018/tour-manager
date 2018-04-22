@@ -125,7 +125,7 @@ describe('Tour API', () => {
 
     describe('Tour stops API', () => {
         /* eslint-disable-next-line */
-        const stop = '97205';
+        const stop = { zip: '97205' };
         
         it('Adds a stop', () => {
             return request.post(`/tours/${woodstock._id}/stops`)
