@@ -18,7 +18,7 @@ describe('Tour API', () => {
         stops: []
     };
 
-    it('saves and gets a tour (POST)', () => {
+    it('saves a tour (POST)', () => {
         return request.post('/tours')
             .send(moMy)
             .then(({ body }) => {
@@ -94,7 +94,7 @@ describe('Tour API', () => {
     describe('Tour Stop API', () => {
         const stop = { zip: '97214' };
 
-        it('adds a stop using zip code', () => {
+        it('adds a stop using zip code (POST)', () => {
             return request.post(`/tours/${maMo._id}/stops`)
                 .send(stop)
                 .then(checkOk)
