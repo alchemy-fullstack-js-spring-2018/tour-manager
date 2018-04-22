@@ -125,18 +125,7 @@ describe('Tour API', () => {
 
     describe('Tour stops API', () => {
         /* eslint-disable-next-line */
-        const stop = {
-            location: {
-                city: 'Portland',
-                state: 'OR',
-                zip: '97205'
-            },
-            weather: {
-                condition: 'Cloudy',
-                windSpeed: '5mph',
-                sunset: 'Like 9',
-            }
-        };
+        const stop = '97205';
         
         it('Adds a stop', () => {
             return request.post(`/tours/${woodstock._id}/stops`)
