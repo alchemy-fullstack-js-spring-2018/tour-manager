@@ -92,7 +92,7 @@ describe('Tour API', () => {
     };
 
     describe('Tour Stop API', () => {
-        const stop = { zip: '97214' };
+        let stop = { zip: '97214' };
 
         it('adds a stop using zip code (POST)', () => {
             return request.post(`/tours/${maMo._id}/stops`)
@@ -102,12 +102,23 @@ describe('Tour API', () => {
                     assert.ok(body._id);
                     assert.ok(body.location.state);
                     assert.ok(body.weather.temperature);
+                    stop = body;
                     return Tour.findById(maMo._id).then(roundTrip);
                 })
                 .then(({ stops }) => {
-                    assert.strictEqual(stops[0].location.zip, stop.zip);
+                    assert.strictEqual(stops[0].location.zip, stop.location.zip);
                 });
         });
 
+        it('updates a stop with attendance information (PUT)', () => {
+            stop.attendance = 93;
+
+            return request.put(`/tours/${maMo._id}/stops/${stop._id}`)
+                .send(stop)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.strictEqual(body.attendance, stop.attendance);
+                });
+        });
     });
 }); 
