@@ -76,18 +76,25 @@ describe('Tour API', () => {
             });
     });
 
-    let stop = { _id: '' };
-
     it('POST - add new stop', () => {
         return request.post(`/tours/${tour2._id}/stops?zip=97205`)
             .then(({ body })  => {
                 assert.equal(body.stops[0].location.city, 'Portland');
-                stop._id = body.stops[0]._id;
+                tour2 = body;
+            });
+    });
+
+    it('PUT - update attendance of stop', () => {
+        tour2.stops[0].attendance = 2000;
+        return request.put(`/tours/${tour2._id}/stops/${tour2.stops[0]._id}/attendance`)
+            .send(tour2)
+            .then(({ body }) => {
+                assert.equal(body.attendance, 2000);
             });
     });
 
     it('DELETE - a stop', () => {
-        return request.delete(`/tours/${tour2._id}/stops/${stop._id}`)
+        return request.delete(`/tours/${tour2._id}/stops/${tour2.stops[0]._id}`)
             .then(() => {
                 return request.get(`/tours/${tour2._id}`);
             })
@@ -95,4 +102,5 @@ describe('Tour API', () => {
                 assert.deepEqual(body.stops, []);
             });
     });
+
 });
