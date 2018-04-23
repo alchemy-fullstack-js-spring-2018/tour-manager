@@ -124,33 +124,22 @@ describe('Tour API', () => {
     };
 
     describe('Tour stops API', () => {
-        /* eslint-disable-next-line */
-        const stop = {
-            location: {
-                city: 'Portland',
-                state: 'OR',
-                zip: '97205'
-            },
-            weather: {
-                condition: 'Cloudy',
-                windSpeed: '5mph',
-                sunset: 'Like 9',
-            }
-        };
+        let stop = { zip: '97205' };
         
         it('Adds a stop', () => {
             return request.post(`/tours/${woodstock._id}/stops`)
                 .send(stop)
                 .then(checkOk)
                 .then(({ body }) => {
-                    assert.isDefined(body._id);
-                    stop._id = body._id;
-                    assert.deepEqual(body, stop);
-                
+                    assert.ok(body._id);
+                    assert.ok(body.location.state);
+                    assert.ok(body.weather.condition);
+                    stop = body;
+                    
                     return Tour.findById(woodstock._id).then(roundTrip);
                 })
                 .then(({ stops }) => {
-                    assert.deepEqual(stops[1], stop);
+                    assert.equal(stops[1].location.city, stop.location.city);
                 });
         });
 
