@@ -7,7 +7,8 @@ function createWeatherLocationMiddleware(api){
                 req.body.weather = weather;
                 req.body.location = location;
                 next();
-            });
+            })
+            .catch(next);
     };
 }
 
@@ -35,4 +36,25 @@ it.only('puts details about the weather on req.body based on zip', done => {
     middleware(req, null, next);
 
     assert.equal(api.zip, zip);
+});
+
+it.only('calls next with error on fail', done => {
+    const error = {};
+    const api = () => {
+        return Promise.reject(error);
+    };
+
+    const middleware = createWeatherLocationMiddleware(api);
+
+    const next = err => {
+        assert.equal(err, error);
+        done();
+    };
+
+    const req = {
+        body: { }
+    };
+
+    middleware(req, null, next);
+
 });
