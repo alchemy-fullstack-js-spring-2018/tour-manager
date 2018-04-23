@@ -2,44 +2,48 @@ const { assert } = require('chai');
 const getWeather = require('../../lib/util/getWeather');
 
 describe('getWeather Middleware', () => {
-    it('Augments req.body with location/weather info', () => {
-        const weatherData = {
-            weather: {
-                temperature: '55',
-                condition: 'Partly Cloudy'
+    it('Augments req.body with location/weather info', done => {
+
+        const req = {
+            query: {
+                zip: '97205'
             },
-            location: {
-                city: 'Portland',
-                state: 'OR'
-            }
-        };
-        
-        const middleware = getWeather(weatherData);
-
-        let called = false;
-        const next = () => { called = true; };
-
-        let req = {
-            header: 'some data',
             body: {
-                weather: {},
-                location: {}
+                temperature: '',
+                condition: '',
+                city: '',
+                state: '',
+                zip: ''
+            },
+            params: {
+                id: 5
             }
         };
 
-        middleware(req, null, next);
+        const next = () => { 
+            assert.equal(req.body.temperature, 55);
+            assert.equal(req.body.city, 'Portland');
+            done();
+        };
 
-        assert.isTrue(called);
-        assert.deepEqual(req, { header: 'some data', 
-            body: {
+        const api = (zip) => {
+            const weatherData = {
                 weather: {
                     temperature: '55',
                     condition: 'Partly Cloudy'
                 },
                 location: {
                     city: 'Portland',
-                    state: 'OR'
+                    state: 'OR',
+                    zip: zip
                 }
-            } });
+            };
+            return Promise.resolve(weatherData);
+        };
+        
+        const middleware = getWeather(api);
+
+        middleware(req, null, next);
+
     });
 });

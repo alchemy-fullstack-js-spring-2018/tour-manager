@@ -14,9 +14,9 @@ describe('Tour Model', () => {
             },
             weather: {
                 temperature: '55',
-                condition: 'Mostly Cloudy',
-                attendance: 55
-            }
+                condition: 'Mostly Cloudy'
+            },
+            attendance: 55
         }]
     };
 
