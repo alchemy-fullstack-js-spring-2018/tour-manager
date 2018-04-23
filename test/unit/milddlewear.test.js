@@ -6,11 +6,12 @@ function createWeatherLocationMiddleware(api){
             .then(({ weather, location }) => {
                 req.body.weather = weather;
                 req.body.location = location;
+                next();
             });
     };
 }
 
-it.only('puts details about the weather on req.body based on zip', () => {
+it.only('puts details about the weather on req.body based on zip', done => {
 
     const weather = {};
     const location = {};
@@ -25,13 +26,13 @@ it.only('puts details about the weather on req.body based on zip', () => {
         body: { zip }
     };
 
-    let called = false;
-    const next = () => called = true;
+    const next = () => {
+        assert.equal(req.body.weather, weather);
+        assert.equal(req.body.location, location);
+        done();
+    };
 
     middleware(req, null, next);
 
     assert.equal(api.zip, zip);
-    assert.equal(req.body.weather, weather);
-    assert.equal(req.body.location, location);
-
 });
