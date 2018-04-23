@@ -6,16 +6,16 @@ function createWeatherLocationMiddleware(api){
     };
 }
 
-it('puts details about the weather on req.body based on zip', () => {
+it.only('puts details about the weather on req.body based on zip', () => {
 
     const api = zip => {
         api.zip = zip;
     };
 
     const middleware = createWeatherLocationMiddleware(api);
-    const zip = 17171
+    const zip = 17171;
     const req = {
-        bod: { zip }
+        body: { zip }
     };
 
     let called = false;
