@@ -68,4 +68,13 @@ describe('Basic Tour API CRUD tests', () => {
             });
     });
 
+    const getFields = ({ _id, title, launchDate }) => ({ _id, title, launchDate });
+
+    it('get all circustours', () => {
+        return request.get('/circustour')
+            .then(({ body }) => {
+                assert.deepEqual(body, [LeCirque, Imaginarium].map(getFields)); //need to return both as array.
+            });
+    });
+
 });
