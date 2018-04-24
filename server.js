@@ -1,3 +1,4 @@
+/* eslint no-console: off */
 const http = require('http');
 const app = require('./lib/app');
 const connect = require('./lib/utils/connect');
