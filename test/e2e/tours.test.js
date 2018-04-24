@@ -124,6 +124,16 @@ describe('Tour API', () => {
                     assert.equal(body.attendance, newStop.attendance);
                 });
         });
+
+        it('deletes a stop by id', () => {
+            return request.delete(`/tours/${volta._id}/stops/${newStop._id}`)
+                .then(() => {
+                    return Tour.findById(volta._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops, []);
+                });
+        });
         
     });
 });
