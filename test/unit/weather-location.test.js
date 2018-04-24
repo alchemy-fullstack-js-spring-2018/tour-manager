@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const getWeatherLocation = require('../../lib/utils/weather-location');
 
-it.only('puts details about the weather on req.body based on zip', done => {
+it('puts details about the weather on req.body based on zip', done => {
 
     const weather = {};
     const location = {};
@@ -27,7 +27,7 @@ it.only('puts details about the weather on req.body based on zip', done => {
     assert.equal(api.zip, zip);
 });
 
-it.only('calls next with error on fail', done => {
+it('calls next with error on fail', done => {
     const error = {};
     const api = () => {
         return Promise.reject(error);
@@ -40,8 +40,9 @@ it.only('calls next with error on fail', done => {
         done();
     };
 
+    const zip = 17171;
     const req = {
-        body: { }
+        body: { zip: zip }
     };
 
     middleware(req, null, next);
