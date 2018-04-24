@@ -12,6 +12,7 @@ describe('Basic Tour API CRUD tests', () => {
     let LeCirque  = {
         title: 'Le Cirque',
         activities: 'Lion taming',
+        launchDate: new Date(),
         stops: []   
     };
     
@@ -25,14 +26,14 @@ describe('Basic Tour API CRUD tests', () => {
     it('saving and getting a circus tour (post method)', () => {
         return request.post('/circustour')
             .send(LeCirque)
-            .then(({ body }) => {
-                const { _id, _v, joined } = body;
-                assert.ok(_id);
-                assert.equal(_v, 0);
-                assert.ok(joined);
+            .then(({ body }) => { //propeties of the body.
+                const { _id, __v, launchDate } = body; //mongodb ads a _id to our body when we get it back
+                assert.ok(_id);                 //_v is a version key, a version of your data, 
+                assert.equal(__v, 0);               //these properties were not there when it was sent, but when it came back from our database
+                assert.ok(launchDate);              //in mongodb they now have these properties.
                 assert.deepEqual(body, {
-                    _id, _v, joined,
-                    ...LeCirque
+                    ...LeCirque,
+                    _id, __v, launchDate,
                 });
                 LeCirque = body;
             });
