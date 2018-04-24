@@ -92,18 +92,18 @@ describe('Tour API', () => {
             });
     });
     
+    let newStop = { zip: '99362' };
+
     describe('Tour Stops API', () => {
     
-        let newStop = { zip: '99362' };
-    
-        
         it('Adds a stop', () => {
             return request.post(`/tours/${volta._id}/stops`)
                 .send(newStop)
                 .then(({ body }) => {
+                    console.log(body);
                     assert.ok(body._id);
                     assert.equal(body.location.city, 'Walla Walla');
-                    assert.ok(body.location.state, 'Washington');
+                    assert.equal(body.location.state, 'WA');
                     assert.ok(body.weather.temperature);
                     assert.ok(body.weather.condition);
                     assert.ok(body.weather.sunrise);
@@ -113,6 +113,16 @@ describe('Tour API', () => {
                 })
                 .then(({ stops }) =>{
                     assert.deepEqual(stops[0].location.zip, newStop.location.zip);
+                });
+        });
+
+        it('updates a stop with attendance', () => {
+            newStop.attendance = 17;
+
+            return request.put(`/tours/${volta._id}/stops/${newStop._id}`)
+                .send(newStop)
+                .then(({ body }) => {
+                    assert.equal(body.attendance, newStop.attendance);
                 });
         });
         
