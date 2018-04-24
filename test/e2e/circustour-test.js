@@ -68,7 +68,7 @@ describe('Basic Tour API CRUD tests', () => {
             });
     });
 
-    const getFields = ({ _id, title, launchDate }) => ({ _id, title, launchDate });
+    const getFields = ({ _id, title, launchDate, stops }) => ({ _id, title, launchDate, stops });
 
     it('get all circustours', () => {
         return request.get('/circustour')
