@@ -100,7 +100,6 @@ describe('Tour API', () => {
             return request.post(`/tours/${volta._id}/stops`)
                 .send(newStop)
                 .then(({ body }) => {
-                    console.log(body);
                     assert.ok(body._id);
                     assert.equal(body.location.city, 'Walla Walla');
                     assert.equal(body.location.state, 'WA');
