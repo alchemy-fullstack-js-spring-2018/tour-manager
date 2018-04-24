@@ -1,7 +1,11 @@
 const { assert } = require('chai');
 const request = require('./request');
+const Tour = require('../../lib/models/tour');
 const { dropCollection } = require('./db');
 const { checkOk } = request;
+
+
+
 describe('e2e testing for flea circus', () => {
 
     before(() => dropCollection('tours'));
@@ -48,6 +52,42 @@ describe('e2e testing for flea circus', () => {
             })
             .then(({ body }) => {
                 assert.deepEqual(body, circus2);
+            });
+    });
+
+    const getFields = ({ _id, title }) => ({ _id, title });
+
+    it('gets all tours by id and title', () => {
+        return request.get('/tours')
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, [circus1, circus2].map(getFields));
+            });
+    });
+    it('update a circus', () => {
+        circus2.activities[2] = 'bounce house';
+
+        return request.put(`/tours/${circus2._id}`)
+            .send(circus2)
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, circus2);
+                return Tour.findById(circus2._id).then(comeBack);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, circus2);
+                circus2 = updated;
+            });
+    });
+
+    it('deletes a circus', () => {
+        return request.delete(`/tours/${circus1._id}`)
+            .then(checkOk)
+            .then(() => {
+                return Tour.findById(circus1._id);
+            })
+            .then(found => {
+                assert.isNull(found);
             });
     });
 });
