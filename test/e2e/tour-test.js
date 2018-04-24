@@ -91,3 +91,14 @@ describe('e2e testing for flea circus', () => {
             });
     });
 });
+
+describe('add stops I hope', () => {
+    
+    const zip = 97015;
+
+    it('adds a stops', () => {
+        return request.post(`/tours/${circus2._id}/stops`)
+    })
+
+
+});
