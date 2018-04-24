@@ -54,4 +54,18 @@ describe('Basic Tour API CRUD tests', () => {
             });
     });
 
+    it('update circustour by id', () => {
+        LeCirque.title = 'Le Crousant';
+
+        return request.put(`/circustour/${LeCirque._id}`)
+            .send(LeCirque)
+            .then(({ body }) => {
+                assert.deepEqual(body, LeCirque);
+                return Circus.findById(LeCirque._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, LeCirque);
+            });
+    });
+
 });
