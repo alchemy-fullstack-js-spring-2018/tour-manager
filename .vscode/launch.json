@@ -12,6 +12,7 @@
             "args": [
                 "-u",
                 "tdd",
+                "--recursive",
                 "--timeout",
                 "999999",
                 "--colors",

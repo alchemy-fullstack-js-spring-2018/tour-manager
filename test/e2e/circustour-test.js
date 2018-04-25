@@ -8,7 +8,7 @@ tables for each test we run, so we start with a clean slate each time.*/
 
 describe('Basic Tour API CRUD tests', () => {
 
-    before(() => dropCollection('circustour'));
+    before(() => dropCollection('circustours'));
 
     let LeCirque  = {
         title: 'Le Cirque',
