@@ -5,6 +5,7 @@ const { dropCollection } = require('./db');
 /*connects to our database! and the dropCollection method lets us empty our.
 tables for each test we run, so we start with a clean slate each time.*/
 
+
 describe('Basic Tour API CRUD tests', () => {
 
     before(() => dropCollection('circustour'));
