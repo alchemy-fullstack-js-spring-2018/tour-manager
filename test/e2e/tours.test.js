@@ -71,4 +71,18 @@ describe('tour api', () => {
                 assert.deepEqual(body, tourA);
             });
     });
+
+    it('updates tour', () => {
+        tourTest.title = 'New tour';
+
+        return request.put(`/tours/${tourTest._id}`)
+            .send(tourTest)
+            .then(({ body }) => {
+                assert.deepEqual(body, tourTest);
+                return Tour.findById(tourTest._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, tourTest);
+            });
+    });
 });
