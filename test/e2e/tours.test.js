@@ -147,5 +147,16 @@ describe('tour api', () => {
                     assert.equal(body.attendance, stopA.attendance);
                 });
         });
+
+        it('removes a stop', () => {
+            return request.delete(`/tours/${tourTest._id}/stops/${stopA._id}`)
+                .then(checkOk)
+                .then(() => {
+                    return Tour.findById(tourTest._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.isUndefined(stops._id);
+                });
+        });
     });
 });
