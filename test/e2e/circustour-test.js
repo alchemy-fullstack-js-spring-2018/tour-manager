@@ -2,6 +2,7 @@ const { assert } = require('chai'); //require chai assertion library.
 const request = require('./request'); //lets us open and close a server for our testing convienience.
 const Circus = require('../../lib/models/circus-schema'); //we want to utilize our schema so we can create database.
 const { dropCollection } = require('./db'); 
+const { checkOk } = request;
 /*connects to our database! and the dropCollection method lets us empty our.
 tables for each test we run, so we start with a clean slate each time.*/
 
@@ -24,6 +25,7 @@ describe('Basic Tour API CRUD tests', () => {
         stops: []
 
     };
+
 
     it('saving and getting a circus tour (post method)', () => {
         return request.post('/circustour')
@@ -78,4 +80,14 @@ describe('Basic Tour API CRUD tests', () => {
             });
     });
 
+    it('deletes a circustour by id', () => {
+        return request.delete(`/circustour/${Imaginarium._id}`)
+            .then(checkOk)
+            .then(() => {
+                return Circus.findById(Imaginarium._id);
+            })
+            .then(found => {
+                assert.isNull(found);
+            });
+    });
 });
