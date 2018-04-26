@@ -102,4 +102,40 @@ describe('tour api', () => {
                 assert.isNull(found);
             });
     });
+
+    const checkOk = res => {
+        if(!res.ok) throw res.error;
+        return res;
+    };
+
+    describe('tour stops', () => {
+        const stopA = {
+            location: {
+                city: 'Portland',
+                state: 'OR',
+                zip: '97229'
+            },
+            weather: {
+                temperature: '55',
+                sunset: '8pm'
+            },
+            attendance: 300
+        };
+
+        it('adds a stop', () => {
+            return request.post(`/tours/${tourTest._id}/stops`)
+                .send(stopA)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.isDefined(body._id);
+                    stopA._id = body._id;
+                    assert.deepEqual(body, stopA);
+
+                    return Tour.findById(tourTest._id).then(roundTrip);
+                })
+                .then(({ stops }) => {
+                    assert.deepEqual(stops[1], stopA);
+                });
+        });
+    });
 });
