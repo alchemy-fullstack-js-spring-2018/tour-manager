@@ -2,7 +2,7 @@ const { assert } = require('chai');
 const { dropCollection } = require('./db');
 const request = require('./request');
 
-describe.skip('tour api', () => {
+describe('tour api', () => {
     
     before(() => dropCollection('tours'));
 
