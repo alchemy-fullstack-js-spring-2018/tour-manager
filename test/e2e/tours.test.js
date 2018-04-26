@@ -92,4 +92,14 @@ describe('tour api', () => {
                 assert.deepEqual(body, [tourTest, tourA]);
             });
     });
+
+    it('deletes tour', () => {
+        return request.delete(`/tours/${tourA._id}`)
+            .then(() => {
+                return Tour.findById(tourA._id);
+            })
+            .then(found => {
+                assert.isNull(found);
+            });
+    });
 });
