@@ -1,6 +1,7 @@
 const { assert } = require('chai');
 const { dropCollection } = require('./db');
 const request = require('./request');
+const Tour = require('../../lib/models/tourSchema');
 
 describe('tour api', () => {
     
@@ -24,6 +25,24 @@ describe('tour api', () => {
         }]
     };
 
+    let tourA = {
+        title: 'second tour test',
+        activities: ['fighting', 'swords', 'fire'],
+        launchDate: new Date(),
+        stops: [{
+            location: {
+                city: 'Tualatin',
+                state: 'OR',
+                zip: '97062'
+            },
+            attendance: 200,
+            weather: {
+                temperature: '65',
+                sunset: '6pm'
+            },
+        }]
+    };
+
     it('saves and gets a tour', () => {
         return request.post('/tours')
             .send(tourTest)
@@ -37,6 +56,19 @@ describe('tour api', () => {
                     launchDate
                 });
                 tourTest = body;
+            });
+    });
+
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    it('gets tour by id', () => {
+        return Tour.create(tourA).then(roundTrip)
+            .then(saved => {
+                tourA = saved;
+                return request.get(`/tours/${tourA._id}`);
+            })
+            .then(({ body }) => {
+                assert.deepEqual(body, tourA);
             });
     });
 });
