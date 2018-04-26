@@ -137,5 +137,15 @@ describe('tour api', () => {
                     assert.deepEqual(stops[1], stopA);
                 });
         });
+
+        it('updates a stop', () => {
+            stopA.attendance = 50;
+            return request.put(`/tours/${tourTest._id}/stops/${stopA._id}`)
+                .send(stopA)
+                .then(checkOk)
+                .then(({ body }) => {
+                    assert.equal(body.attendance, stopA.attendance);
+                });
+        });
     });
 });
